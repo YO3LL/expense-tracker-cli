@@ -91,7 +91,7 @@ while ContinueProgram:
     elif choice == 3:
         for i, expense in enumerate(expenses):
             print(i+1, ". ", expense)
-        print("Select which option to remove: ",end=" ") ##### LEFT OFF HERE
+        print("Select which option to remove: ",end=" ") ##### LEFT OFF HERE. Change 12
 
     elif choice == 4:
         pass
