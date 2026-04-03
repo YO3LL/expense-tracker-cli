@@ -1,5 +1,5 @@
 ''' Solo Project: Personal Expense and Budget Tracker '''
-
+import csv
 from datetime import datetime
 
 # Expense class
@@ -206,33 +206,53 @@ def update_expense():
             except ValueError:
                 print('Invalid choice, try again. Please select a number from the item list.') # Checks valid index TYPE for budget item in expenses[]
 
+# Save/Load Data Functions
+def save_data(expenses):
+    try:
+        with open('expenses.txt', 'w') as file:
+            for expense in expenses:
+                file.write(
+                    f"{expense.amount},"
+                    f"{expense.category},"
+                    f"{expense.date.strftime('%Y-%m-%d')},"
+                    f"{expense.description}\n"
+                )
+        print('Save successful.\n')
+    except Exception:
+        print('An error occurred while saving data.\n')
+
+def load_data(expenses):
+    pass
+    # PICK UP HERE #
+
+# MAIN
 while continue_program:
     # Display menu
     choice = menu()
 
-    if choice == 1:     # 1. Add Expense
+    if choice == 1:     # 1. Add Expense (Progressive Goal: Layer 1 - Functional Minimal)
         add_expense()
         input("Press enter to continue...\n")
 
-    elif choice == 2:   # 2. View Expenses
+    elif choice == 2:   # 2. View Expenses (Progressive Goal: Layer 1 - Functional Minimal)
         view_expense()
         input("Press enter to continue...\n")
 
-    elif choice == 3:   # 3. Delete Expense
+    elif choice == 3:   # 3. Delete Expense (Progressive Goal: Layer 2 - Low Target)
         delete_expense()
         input("Press enter to continue...\n")
 
-    elif choice == 4:   # 4. Update Expense
+    elif choice == 4:   # 4. Update Expense (Progressive Goal: Layer 2 - Low Target)
         update_expense()
         input("Press enter to continue...\n")
 
-    elif choice == 5:   # 5.
+    elif choice == 5:   # 5. Save Data (Progressive Goal: Layer 1 - Functional Minimal)
         pass
-    elif choice == 6:
+    elif choice == 6:   # 6. Load Data (Progressive Goal: Layer 1 - Functional Minimal)
         pass
-    elif choice == 7:
+    elif choice == 7:   # 7. Calculate Total Expenses (Progressive Goal: Layer 3 - Desirable Target)
         pass
-    elif choice == 8:
+    elif choice == 8:   # 8. Quit
         continue_program = False
     else:
         print("Invalid choice, try again.\n")
