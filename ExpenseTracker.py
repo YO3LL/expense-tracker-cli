@@ -223,7 +223,7 @@ def save_data(expenses):
 
 def load_data(expenses):
     pass
-    # PICK UP HERE #
+    # PICK UP HERE # 1. Ask for file name to be saved as. Create (open) the new file and save data.
 
 # MAIN
 while continue_program:
