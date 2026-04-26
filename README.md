@@ -1,9 +1,6 @@
 # PROJECT-Personal-Expense-and-Budget-Tracker
 Project for Software Engineering class.
 
-# PROJECT-Personal-Expense-and-Budget-Tracker
-Project for Software Engineering class.
-
 # Expense Tracker (CLI)
 
 A command-line expense tracker built in Python. This project was developed to practice core programming concepts like data structures, file handling, and program flow.
