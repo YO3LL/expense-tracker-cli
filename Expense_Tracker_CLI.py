@@ -1,7 +1,6 @@
 ''' Solo Project: Personal Expense and Budget Tracker '''
 from datetime import datetime
 
-
 # Expense class
 class Expense:
     # Constructori
@@ -20,27 +19,34 @@ class Expense:
 print("\tWelcome to your Personal Expense and Budget Tracker\n")
 continue_program = True  # Decides when to terminate program
 
-# Vector that holds all expenses
+# List that holds all expenses
 expenses = [
-    Expense(12.50, "food", datetime(2026, 3, 25), "lunch"),
-    Expense(45.00, "gas", datetime(2026, 3, 24), "fuel"),
-    Expense(120.99, "groceries", datetime(2026, 3, 23), "weekly shopping"),
-    Expense(9.99, "subscription", datetime(2026, 3, 22), "netflix"),
-    Expense(60.00, "utilities", datetime(2026, 3, 21), "electricity bill"),
+    Expense(12.50, "Food", datetime(2026, 3, 25), "lunch"),
+    Expense(45.00, "Gas", datetime(2026, 3, 24), "fuel"),
+    Expense(120.99, "Groceries", datetime(2026, 3, 23), "weekly shopping"),
+    Expense(9.99, "Subscription", datetime(2026, 3, 22), "netflix"),
+    Expense(60.00, "Utilities", datetime(2026, 3, 21), "electricity bill"),
 ]
 
+# Dict for Budget
+budgets = {
+    "Food": 200,
+    "Gas": 100,
+    "Groceries": 300,
+    "Utilities": 150,
+    "Entertainment": 75
+}
 
 # Menu function
 def menu():
-    print("\tChoose an option (1-8)\t")
-    print("1. Add Expense")
-    print("2. View Expenses")
-    print("3. Delete Expense")
-    print("4. Update Expense")
-    print("5. Save Data")
-    print("6. Load Data")
-    print("7. Calculate Total Expenses")
-    print("8. Exit")
+    print(f"{'Choose an option (1-8)':>35}")
+    print(f"{'1. Add Expense':<35}{'2. View Expenses'}")
+    print(f"{'3. Delete Expense':<35}{'4. Update Expense'}")
+    print(f"{'5. Save Data':<35}{'6. Load Data'}")
+    print(f"{'7. Calculate Total Expenses':<35}{'8. Set Budget'}")
+    print(f"{'9. View Budgets':<35}{'10. Category Totals'}")
+    print(f"{'11. View Budget Status':<35}{'12. Exit'}")
+
     while True:
 
         try:
@@ -84,7 +90,7 @@ def add_expense(expenses):
             print('Invalid amount, try again.')
 
     # Enter 'category' - Removes whitespaces
-    category = input('Enter your category: ').strip().lower()
+    category = input('Enter your category: ').strip().capitalize()
 
     # Enter 'date' - Use string parse time to translate into a date type
     while True:
@@ -190,7 +196,7 @@ def update_expense(expenses):
 
                     valid_fields = ['amount', 'category', 'date', 'description']
 
-                    field_to_update = str(input('Selection: ')).strip().lower()
+                    field_to_update = str(input('Selection: ')).strip().capitalize()
 
                     if field_to_update in valid_fields:
                         if field_to_update == 'amount':
@@ -211,7 +217,7 @@ def update_expense(expenses):
                             break
 
                         elif field_to_update == 'category':
-                            category = input('Enter your category: ').strip().lower()
+                            category = input('Enter your category: ').strip().capitalize()
 
                             expenses[update_expense_index].category = category
 
@@ -330,6 +336,54 @@ def total_expenses(expenses):
     print(f'Total expenses: ${total:.2f}\n')
 
 
+# Set Budget
+def set_budget(budgets):
+    category = input("Enter a budget category: ").strip().capitalize()
+
+    while True:
+        try:
+            amount = float(input("Enter your budget amount: "))
+            if(amount <= 0):
+                print('Amount must be greater than 0.')
+                continue
+            break
+        except ValueError:
+            print('Error - value must be numerical.')
+
+    budgets[category] = amount
+    print('Budget added successfully.\n')
+
+# View Budgets
+def view_budgets(budgets):
+    for category, budget in budgets.items():
+        print(f'{category}: ${budget:.2f}')
+
+# Calculate Category Total
+def calculate_category_totals(expenses):
+    # Dict for category totals
+    totals = {}
+
+    for expense in expenses:
+        category = expense.category
+        amount = expense.amount
+        if category in totals:
+            totals[category] += amount
+        else:
+            totals[category] = amount
+
+    return totals
+
+# View Budget Status
+def view_budget_status(budgets, expenses):
+    total = calculate_category_totals(expenses)
+    for category, amount in total.items():
+        if category in budgets:
+            if amount > budgets[category]:
+                print(f'{category:<20}Budget: ${budgets[category]:<20.2f}Balance: ${amount:.2f} (EXCEEDED)')
+            else:
+                print(f'{category:<20}Budget: ${budgets[category]:<20.2f}Balance: ${amount:.2f}')
+
+
 # MAIN
 while continue_program:
     # Display menu
@@ -363,7 +417,27 @@ while continue_program:
         total_expenses(expenses)
         input("Press enter to continue...")
 
-    elif choice == 8:  # 8. Quit
+    elif choice == 8:  # 8. Set Budget
+        set_budget(budgets)
+        input("Press enter to continue...")
+
+    elif choice == 9:  # 9. View Budgets
+        view_budgets(budgets)
+        input("Press enter to continue...")
+
+    elif choice == 10:  # 10. Category Totals
+        totals = calculate_category_totals(expenses)
+
+        for category, total in totals.items():
+            print(f"{category}: ${total:.2f}")
+
+        input("Press enter to continue...")
+
+    elif choice == 11:  # 11. View Budget Status
+        view_budget_status(budgets, expenses)
+        input("Press enter to continue...")
+
+    elif choice == 12:  # 12. Quit
         print("Program successfully terminated. Thank you!")
         continue_program = False
 
