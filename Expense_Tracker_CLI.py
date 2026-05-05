@@ -3,7 +3,7 @@ from datetime import datetime
 
 # Expense class
 class Expense:
-    # Constructori
+    # Constructor
     def __init__(self, amount: float, category: str, date: datetime, description: str):
         self.amount = amount
         self.category = category
@@ -39,7 +39,7 @@ budgets = {
 
 # Menu function
 def menu():
-    print(f"{'Choose an option (1-8)':>35}")
+    print(f"{'Choose an option (1-12)':>35}")
     print(f"{'1. Add Expense':<35}{'2. View Expenses'}")
     print(f"{'3. Delete Expense':<35}{'4. Update Expense'}")
     print(f"{'5. Save Data':<35}{'6. Load Data'}")
@@ -53,7 +53,7 @@ def menu():
             return int(input('\nEnter your choice: '))
 
         except ValueError:
-            print('Invalid choice, enter a number from 1 to 8.\n')
+            print('Invalid choice, enter a number from 1 to 12.\n')
 
 
 # Helper function - display expenses
@@ -194,12 +194,12 @@ def update_expense(expenses):
                         f"{expense.description:<20}"
                     )
 
-                    valid_fields = ['amount', 'category', 'date', 'description']
+                    valid_fields = ['Amount', 'Category', 'Date', 'Description']
 
                     field_to_update = str(input('Selection: ')).strip().capitalize()
 
                     if field_to_update in valid_fields:
-                        if field_to_update == 'amount':
+                        if field_to_update == 'Amount':
                             while True:
 
                                 try:
@@ -216,7 +216,7 @@ def update_expense(expenses):
                             print('Expense updated successfully.\n')
                             break
 
-                        elif field_to_update == 'category':
+                        elif field_to_update == 'Category':
                             category = input('Enter your category: ').strip().capitalize()
 
                             expenses[update_expense_index].category = category
@@ -224,7 +224,7 @@ def update_expense(expenses):
                             print('Expense updated successfully.\n')
                             break
 
-                        elif field_to_update == 'date':
+                        elif field_to_update == 'Date':
                             while True:
                                 date_str = input('Enter date (YYYY-MM-DD): ').strip()
                                 try:
@@ -238,7 +238,7 @@ def update_expense(expenses):
                             print('Expense updated successfully.\n')
                             break
 
-                        elif field_to_update == 'description':
+                        elif field_to_update == 'Description':
                             while True:
                                 description = input('Enter description (do not include commas): ').strip()
                                 if ',' in description:
@@ -343,7 +343,7 @@ def set_budget(budgets):
     while True:
         try:
             amount = float(input("Enter your budget amount: "))
-            if(amount <= 0):
+            if amount <= 0:
                 print('Amount must be greater than 0.')
                 continue
             break
@@ -353,10 +353,16 @@ def set_budget(budgets):
     budgets[category] = amount
     print('Budget added successfully.\n')
 
+
 # View Budgets
 def view_budgets(budgets):
+    if not budgets:
+        print('No budgets found.\n')
+        return
+
     for category, budget in budgets.items():
         print(f'{category}: ${budget:.2f}')
+
 
 # Calculate Category Total
 def calculate_category_totals(expenses):
@@ -373,15 +379,20 @@ def calculate_category_totals(expenses):
 
     return totals
 
+
 # View Budget Status
 def view_budget_status(budgets, expenses):
-    total = calculate_category_totals(expenses)
-    for category, amount in total.items():
+    if not budgets:
+        print('No budgets found.\n')
+        return
+
+    totals = calculate_category_totals(expenses)
+    for category, amount in totals.items():
         if category in budgets:
             if amount > budgets[category]:
-                print(f'{category:<20}Budget: ${budgets[category]:<20.2f}Balance: ${amount:.2f} (EXCEEDED)')
+                print(f'{category:<20}Budget: ${budgets[category]:<20.2f}Spent: ${amount:.2f} (EXCEEDED)')
             else:
-                print(f'{category:<20}Budget: ${budgets[category]:<20.2f}Balance: ${amount:.2f}')
+                print(f'{category:<20}Budget: ${budgets[category]:<20.2f}Spent: ${amount:.2f}')
 
 
 # MAIN
